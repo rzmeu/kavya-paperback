@@ -175,7 +175,7 @@ export class Kavya implements ChapterProviding, HomePageSectionsProviding, Manga
 	}
 
 	async getSearchTags(): Promise<TagSection[]> {
-		// This function is also called when the user search in an other source. It should not throw if the server is unavailable.
+		// This function is also called when the user search in another source. It should not throw if the server is unavailable.
 		if (!(await this.interceptor.isServerAvailable())) {
 			return [];
 		}
@@ -198,7 +198,7 @@ export class Kavya implements ChapterProviding, HomePageSectionsProviding, Manga
 			includeLibraryIds.push(library.id);
 		}
 		
-		const tagNames: string[] = ['genres', 'people', 'tags'];
+		const tagNames: string[] = ['genres', 'tags'];
 		const tagSections: any = [];
 
 		const promises: Promise<void>[] = [];
@@ -263,7 +263,7 @@ export class Kavya implements ChapterProviding, HomePageSectionsProviding, Manga
 		// We won't use `await this.getKavitaAPI()` as we do not want to throw an error on
 		// the homepage when server settings are not set
 		const kavitaAPI = await getKavitaAPI(this.stateManager);
-		const { showOnDeck, showRecentlyUpdated, showNewlyAdded, excludeUnsupportedLibrary } = await getOptions(this.stateManager);
+		const { showOnDeck, showRecentlyUpdated, showNewlyAdded, excludeUnsupportedLibrary, randomBooksInCollection } = await getOptions(this.stateManager);
 		const pageSize = (await getOptions(this.stateManager)).pageSize / 2;
 
 		// The source define two homepage sections: new and latest
@@ -297,7 +297,7 @@ export class Kavya implements ChapterProviding, HomePageSectionsProviding, Manga
 		}
 
 		const request = App.createRequest({
-			url: `${kavitaAPI.url}/Library/libraries`,
+				url: `${kavitaAPI.url}/Library/libraries`,
 			method: 'GET',
 		});
 
@@ -344,7 +344,7 @@ export class Kavya implements ChapterProviding, HomePageSectionsProviding, Manga
 					body = {
 						statements: [{ comparison: 0, field: 19, value: section.id }],
 						combination: 1,
-						sortOptions: { sortField: 1, isAscending: true },
+						sortOptions: { sortField: randomBooksInCollection ? 9: 1, isAscending: true },
 						limitTo: 0
 					};
 					break;

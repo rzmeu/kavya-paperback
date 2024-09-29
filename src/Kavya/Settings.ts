@@ -132,6 +132,19 @@ export const serverSettingsMenu = (
 									await setStateData(stateManager, interceptor, values);
 								}
 							})
+						}),
+						App.createDUISwitch({
+							id: 'randomBooksInCollection',
+							label: 'Randomize books',
+							value: App.createDUIBinding({
+								async get() {
+									return values.excludeUnsupportedLibrary;
+								},
+								async set(value) {
+									values.excludeUnsupportedLibrary = value;
+									await setStateData(stateManager, interceptor, values);
+								}
+							})
 						})
 					]),
 				}),
@@ -170,10 +183,11 @@ export async function retrieveStateData(stateManager: SourceStateManager) {
 	const showRecentlyUpdated = (await stateManager.retrieve('showRecentlyUpdated') as boolean) ?? DEFAULT_VALUES.showRecentlyUpdated;
 	const showNewlyAdded = (await stateManager.retrieve('showNewlyAdded') as boolean) ?? DEFAULT_VALUES.showNewlyAdded;
 	const excludeUnsupportedLibrary = (await stateManager.retrieve('excludeUnsupportedLibrary') as boolean) ?? DEFAULT_VALUES.excludeUnsupportedLibrary;
+	const randomBooksInCollection = (await stateManager.retrieve('randomBooksInCollection') as boolean) ?? DEFAULT_VALUES.randomBooksInCollection;
 
 	const enableRecursiveSearch = (await stateManager.retrieve('enableRecursiveSearch') as boolean) ?? DEFAULT_VALUES.enableRecursiveSearch;
 
-	return { kavitaAddress, kavitaAPIKey, pageSize, showOnDeck, showRecentlyUpdated, showNewlyAdded, excludeUnsupportedLibrary, enableRecursiveSearch }
+	return { kavitaAddress, kavitaAPIKey, pageSize, showOnDeck, showRecentlyUpdated, showNewlyAdded, excludeUnsupportedLibrary, randomBooksInCollection, enableRecursiveSearch }
 }
 
 export async function setStateData(stateManager: SourceStateManager, interceptor: KavitaRequestInterceptor, data: Record<string, any>) {

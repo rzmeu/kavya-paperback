@@ -176,6 +176,7 @@ export const DEFAULT_VALUES: any = {
 	showRecentlyUpdated: true,
 	showNewlyAdded: true,
 	excludeUnsupportedLibrary: false,
+	randomBooksInCollection: false,
 	
 	enableRecursiveSearch: false
 }
@@ -212,6 +213,7 @@ export async function getOptions(
 	showRecentlyUpdated: boolean;
 	showNewlyAdded: boolean;
 	excludeUnsupportedLibrary: boolean;
+	randomBooksInCollection: boolean;
 	enableRecursiveSearch: boolean;
 }> {
 	const pageSize = (await stateManager.retrieve('pageSize') as number) ?? DEFAULT_VALUES.pageSize;
@@ -219,8 +221,9 @@ export async function getOptions(
 	const showRecentlyUpdated = (await stateManager.retrieve('showRecentlyUpdated') as boolean) ?? DEFAULT_VALUES.showRecentlyUpdated;
 	const showNewlyAdded = (await stateManager.retrieve('showNewlyAdded') as boolean) ?? DEFAULT_VALUES.showNewlyAdded;
 	const excludeUnsupportedLibrary = (await stateManager.retrieve('excludeUnsupportedLibrary') as boolean) ?? DEFAULT_VALUES.excludeUnsupportedLibrary;
+	const randomBooksInCollection = (await stateManager.retrieve('randomBooksInCollection') as boolean) ?? DEFAULT_VALUES.randomBooksInCollection;
 
 	const enableRecursiveSearch = (await stateManager.retrieve('enableRecursiveSearch') as boolean) ?? DEFAULT_VALUES.enableRecursiveSearch;
 
-	return { pageSize, showOnDeck, showRecentlyUpdated, showNewlyAdded, excludeUnsupportedLibrary, enableRecursiveSearch };
+	return { pageSize, showOnDeck, showRecentlyUpdated, showNewlyAdded, excludeUnsupportedLibrary, randomBooksInCollection, enableRecursiveSearch };
 }
