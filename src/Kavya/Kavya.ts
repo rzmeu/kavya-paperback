@@ -60,6 +60,7 @@ export const KavyaInfo: SourceInfo = {
 	intents: SourceIntents.COLLECTION_MANAGEMENT | SourceIntents.HOMEPAGE_SECTIONS | SourceIntents.MANGA_CHAPTERS | SourceIntents.MANGA_TRACKING | SourceIntents.SETTINGS_UI
 };
 
+
 export class Kavya implements ChapterProviding, HomePageSectionsProviding, MangaProgressProviding, MangaProviding, RequestManagerProviding, SearchResultsProviding {
 	stateManager = App.createSourceStateManager();
 
@@ -390,7 +391,7 @@ export class Kavya implements ChapterProviding, HomePageSectionsProviding, Manga
 		metadata: any
 	): Promise<PagedResults> {
 		const kavitaAPI = await getKavitaAPI(this.stateManager);
-		const { pageSize, excludeUnsupportedLibrary } = await getOptions(this.stateManager);
+		const { pageSize, excludeUnsupportedLibrary, randomBooksInCollection } = await getOptions(this.stateManager);
 		const excludeLibraryIds: number[] = [];
 		const page: number = (metadata?.page ?? 0) + 1;
 
@@ -415,7 +416,7 @@ export class Kavya implements ChapterProviding, HomePageSectionsProviding, Manga
 				body = {
 					statements: [{ comparison: 0, field: 19, value: homepageSectionId }],
 					combination: 1,
-					sortOptions: { sortField: 1, isAscending: true },
+					sortOptions: { sortField: randomBooksInCollection ? 9: 1, isAscending: true },
 					limitTo: 0
 				};
 				break;

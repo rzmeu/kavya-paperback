@@ -138,10 +138,10 @@ export const serverSettingsMenu = (
 							label: 'Randomize books',
 							value: App.createDUIBinding({
 								async get() {
-									return values.excludeUnsupportedLibrary;
+									return values.randomBooksInCollection;
 								},
 								async set(value) {
-									values.excludeUnsupportedLibrary = value;
+									values.randomBooksInCollection = value;
 									await setStateData(stateManager, interceptor, values);
 								}
 							})
